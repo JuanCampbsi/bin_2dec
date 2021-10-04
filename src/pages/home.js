@@ -9,16 +9,28 @@ import {
 } from 'react-native';
 
 export default function Home() {
-  const [newBin, setBin] = useState('');
-  const [numberHex, setnumberHex] = useState([]);
-  
-  function handleConverter() {    
-    for (let c = 0; c < newBin.length; c++)
-    newBin += Math.pow(2, c) * newBin[setBin.length - c - 1];
-   
-    console.log(newBin)
+  const [binaryText, setBinaryText] = useState('')
+  const [decimalText, setDecimalText] = useState('')
+ 
+
+  function handleConverter() {
+    if (binaryText.match(/^[0-1]+$/g) === null) {
+      //errorMessage
+    }    
+
+    const reversedBinaryText = binaryText
+      .split('')
+      .map(Number) // Convert to a number from string
+      .reverse()
+
+    // Calculate the result by accumulating previous vaue
+    const result = reversedBinaryText.reduce(
+      (accumulator, currentValue, idx) =>
+        accumulator + currentValue * Math.pow(2, idx)
+    )
+    setDecimalText(result)
   }
-  
+
   return (
     <>
       <View style={styles.container}>
@@ -30,33 +42,28 @@ export default function Home() {
           Enter the binary number
         </Text>
 
-        <TextInput 
-        style={styles.input} 
-        onChangeText={setBin}
+        <TextInput
+          style={styles.input}
+          onChangeText={setBinaryText}
         />
 
         <TouchableOpacity style={styles.button}
           activeOpacity={.7}
-          onPress={handleConverter}
-        >
-          <Text style={styles.buttonText} >
-            Convert
-          </Text>
+          onPress={handleConverter}>
+            <Text style={styles.buttonText} >
+              Start
+            </Text>
         </TouchableOpacity>
+
         <Text style={[styles.subTitle, { marginVertical: 50 }]}>
           Value for Hexadecimal
         </Text>
 
-       
-            <TouchableOpacity             
-              style={styles.buttonHex}>
-              <Text
-                style={styles.buttonText}>
-                {numberHex}
-              </Text>
-            </TouchableOpacity>
-         
-
+        <TouchableOpacity style={styles.buttonHex}>
+            <Text style={styles.buttonTextHex}>
+              {decimalText}
+            </Text>
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -65,7 +72,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#191970',
+    backgroundColor: '#3CB371',
     paddingHorizontal: 20,
     paddingVertical: 70,
     paddingHorizontal: 30
@@ -74,38 +81,45 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 40,
     fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'left'
   },
   subTitle: {
     color: '#FFF',
     fontSize: 20,
-    marginTop: 50
+    marginTop: 50,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   input: {
-    backgroundColor: '#6495ED',
-    color: '#FFF',
+    backgroundColor: '#FFFFE0',
+    color: 'black',
     fontSize: 18,
     padding: Platform.OS === 'ios' ? 15 : 10,
     marginTop: Platform.OS === 'ios' ? 30 : 20,
-    borderRadius: 7
+    borderRadius: 7,
+    fontWeight: 'bold'
   },
   button: {
-    backgroundColor: '#4682B4',
+    backgroundColor: '#ADFF2F',
     padding: 15,
     borderRadius: 7,
     alignItems: 'center',
     marginTop: 20
   },
   buttonText: {
-    color: '#FFF',
-    fontSize: 17,
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  buttonTextHex: {
+    color: 'black',
+    fontSize: 50,
     fontWeight: 'bold'
   },
   buttonHex: {
-    backgroundColor: '#4682B4',
-    padding: 15,
-    borderRadius: 7,
-    alignItems: 'center',
-    marginTop: 20
+    backgroundColor: '#FFFFE0',
+    padding: 100,
+    borderRadius: 500,
+    alignItems: 'center'
   },
 });
