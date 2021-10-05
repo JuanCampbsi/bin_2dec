@@ -17,11 +17,12 @@ export default function Home() {
  
 
   function handleConverter() {
+    
     if (binaryText.match(/^[0-1]+$/g) === null) {
       setErrorMessage('Enter either 0 or 1')
     }   
     setErrorMessage('') // Reset the error message
-
+    
     const reversedBinaryText = binaryText
       .split('')
       .map(Number) // Convert to a number from string
@@ -32,7 +33,8 @@ export default function Home() {
       (accumulator, currentValue, idx) =>
         accumulator + currentValue * Math.pow(2, idx)
     )
-    setDecimalText(result)
+    setDecimalText(result);
+    
   }
 
   return (
@@ -50,6 +52,9 @@ export default function Home() {
           style={styles.input}
           onChangeText={setBinaryText}
           blurOnSubmit={true}
+          keyboardType={'decimal-pad'}
+          maxLength={8}        
+                  
         />
 
         <TouchableOpacity style={styles.button}
