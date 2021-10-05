@@ -5,18 +5,22 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
-  View
+  View,
+  ScrollView,
+  
 } from 'react-native';
 
 export default function Home() {
-  const [binaryText, setBinaryText] = useState('')
-  const [decimalText, setDecimalText] = useState('')
+  const [binaryText, setBinaryText] = useState('');
+  const [decimalText, setDecimalText] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
  
 
   function handleConverter() {
     if (binaryText.match(/^[0-1]+$/g) === null) {
-      //errorMessage
-    }    
+      setErrorMessage('Enter either 0 or 1')
+    }   
+    setErrorMessage('') // Reset the error message
 
     const reversedBinaryText = binaryText
       .split('')
@@ -33,7 +37,7 @@ export default function Home() {
 
   return (
     <>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>
           Welcome !
         </Text>
@@ -45,11 +49,14 @@ export default function Home() {
         <TextInput
           style={styles.input}
           onChangeText={setBinaryText}
+          blurOnSubmit={true}
         />
 
         <TouchableOpacity style={styles.button}
           activeOpacity={.7}
-          onPress={handleConverter}>
+          onPress={handleConverter}          
+          > 
+          
             <Text style={styles.buttonText} >
               Start
             </Text>
@@ -64,7 +71,7 @@ export default function Home() {
               {decimalText}
             </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </>
   );
 }
@@ -117,9 +124,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonHex: {
-    backgroundColor: '#FFFFE0',
-    padding: 100,
+    backgroundColor: '#FFFFE0',    
     borderRadius: 500,
-    alignItems: 'center'
+    alignItems: 'center',
+    bottom: 10
   },
 });
