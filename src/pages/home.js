@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import arrowButton from '../../assets/arrow-button.png';
 import {
   StyleSheet,
   Text,
@@ -6,42 +7,39 @@ import {
   Platform,
   TouchableOpacity,
   View,
-  ScrollView,
-  
+  Image
 } from 'react-native';
+
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
   const [decimalText, setDecimalText] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
- 
 
   function handleConverter() {
-    
-    if (binaryText.match(/^[0-1]+$/g) === null) {
-      setErrorMessage('Enter either 0 or 1')
-    }   
-    setErrorMessage('') // Reset the error message
-    
-    const reversedBinaryText = binaryText
-      .split('')
-      .map(Number) // Convert to a number from string
-      .reverse()
+    setDecimalText('');
+    if (binaryText.replace(/[^2-9]/g, '')) {
+      alert('Enter number 0 or 1 !')
+    } else {
 
-    // Calculate the result by accumulating previous vaue
-    const result = reversedBinaryText.reduce(
-      (accumulator, currentValue, idx) =>
-        accumulator + currentValue * Math.pow(2, idx)
-    )
-    setDecimalText(result);
-    
+      const reversedBinaryText = binaryText
+        .split('')
+        .map(Number) // Convert to a number from string
+        .reverse()
+
+      // Calculate the result by accumulating previous vaue
+      const result = reversedBinaryText.reduce(
+        (accumulator, currentValue, idx) =>
+          accumulator + currentValue * Math.pow(2, idx)
+      )
+      setDecimalText(result);
+
+    }
   }
-
   return (
     <>
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>
-          Welcome !
+          Bin{<Text style={styles.gold}>2</Text>}Dec
         </Text>
 
         <Text style={styles.subTitle}>
@@ -53,30 +51,28 @@ export default function Home() {
           onChangeText={setBinaryText}
           blurOnSubmit={true}
           keyboardType={'decimal-pad'}
-          maxLength={8}        
-                  
+          maxLength={8}
         />
 
         <TouchableOpacity style={styles.button}
           activeOpacity={.7}
-          onPress={handleConverter}          
-          > 
-          
-            <Text style={styles.buttonText} >
-              Start
-            </Text>
+          onPress={handleConverter}
+        >
+          <Text style={styles.buttonText} >
+            Start
+          </Text>
         </TouchableOpacity>
 
-        <Text style={[styles.subTitle, { marginVertical: 50 }]}>
-          Value for Hexadecimal
-        </Text>
+        <View style={styles.arrowView}>
+        <Image  source={arrowButton} style={styles.arrow}/>
+        </View>
 
         <TouchableOpacity style={styles.buttonHex}>
-            <Text style={styles.buttonTextHex}>
-              {decimalText}
-            </Text>
+          <Text style={styles.buttonTextHex}>
+            {decimalText}
+          </Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </>
   );
 }
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 40,
     fontWeight: 'bold',
-    textAlign: 'left'
+    textAlign: 'center'
   },
   subTitle: {
     color: '#FFF',
@@ -109,7 +105,8 @@ const styles = StyleSheet.create({
     padding: Platform.OS === 'ios' ? 15 : 10,
     marginTop: Platform.OS === 'ios' ? 30 : 20,
     borderRadius: 7,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign:'center'
   },
   button: {
     backgroundColor: '#ADFF2F',
@@ -129,9 +126,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonHex: {
-    backgroundColor: '#FFFFE0',    
+    backgroundColor: '#FFFFE0',
     borderRadius: 500,
     alignItems: 'center',
-    bottom: 10
+    bottom: 10,
+    marginTop: 40
   },
+  gold: {
+    color: '#FFD700',
+  },
+  arrowView: {   
+    justifyContent: 'center',
+    alignItems: 'center'
+  }, 
+  arrow: {
+    width: 50,
+    height: 50,
+    marginTop: 30,
+    transform: [{ rotate: '90deg' }],
+    justifyContent: 'center',
+    alignItems: 'center',
+}
 });
