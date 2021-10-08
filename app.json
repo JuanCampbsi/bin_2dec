@@ -1,18 +1,40 @@
 {
   "expo": {
-    "name": "Bin2Dec-App",
-    "slug": "Bin2Dec-App",
+    "name": "Bin2Dec",
+    "slug": "Bin2Dec",
     "version": "1.0.0",
     "orientation": "portrait",
-    
+    "icon": "./assets/icon.png",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    
+    "splash": {
+      "image": "./assets/splashicon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3CB371",
+      "flex": "1",
+      "alignItems": "center"
+
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.juandev.bin2dec"
+    },
+    "android": {
+      "package": "com.juandev.bin2dec",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#3CB371"
+      }
     }
   }
 }
