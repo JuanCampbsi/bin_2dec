@@ -5,10 +5,11 @@ import {
   Text,
   TextInput,
   Platform,
-  TouchableOpacity,
   View,
   Image
 } from 'react-native';
+import Button from '../components/Button';
+import Decimal from '../components/Decimal';
 
 
 export default function Home() {
@@ -54,24 +55,14 @@ export default function Home() {
           maxLength={8}
         />
 
-        <TouchableOpacity style={styles.button}
-          activeOpacity={.7}
-          onPress={handleConverter}
-        >
-          <Text style={styles.buttonText} >
-            Start
-          </Text>
-        </TouchableOpacity>
+        <Button onPress={ handleConverter }/>
 
         <View style={styles.arrowView}>
         <Image  source={arrowButton} style={styles.arrow}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonHex}>
-          <Text style={styles.buttonTextHex}>
-            {decimalText}
-          </Text>
-        </TouchableOpacity>
+        <Decimal decimalText={decimalText}/>
+
       </View>
     </>
   );
@@ -107,30 +98,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     fontWeight: 'bold',
     textAlign:'center'
-  },
-  button: {
-    backgroundColor: '#ADFF2F',
-    padding: 15,
-    borderRadius: 7,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  buttonText: {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  buttonTextHex: {
-    color: 'black',
-    fontSize: 50,
-    fontWeight: 'bold'
-  },
-  buttonHex: {
-    backgroundColor: '#FFFFE0',
-    borderRadius: 500,
-    alignItems: 'center',
-    bottom: 10,
-    marginTop: 40
   },
   gold: {
     color: '#FFD700',
