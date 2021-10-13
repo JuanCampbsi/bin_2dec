@@ -1,6 +1,8 @@
 import React from 'react';
 import {
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet,
+  Text
 } from 'react-native';
 
 export function Decimal({ decimalText }) {
