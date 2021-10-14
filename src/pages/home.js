@@ -18,7 +18,7 @@ export default function Home() {
 
   function handleConverter() {
     setDecimalText('');
-    if (binaryText.replace(/[^2-9]/g, '')) {
+    if (binaryText.replace(/[^2-9]/g, '')) { // Refatorar esse método
       alert('Enter number 0 or 1 !')
     } else {
 
