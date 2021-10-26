@@ -1,13 +1,21 @@
 import React from 'react';
 import {
   TouchableOpacity,
+  TouchableOpacityProps,
   StyleSheet,
   Text
 } from 'react-native';
 
-export function Decimal({ decimalText }) {
+interface DecimalText extends TouchableOpacityProps{
+  decimalText: number;
+}
+
+export function Decimal({ decimalText, ...rest }: DecimalText) {
   return (
-    <TouchableOpacity style={styles.buttonHex}>
+    <TouchableOpacity 
+      style={styles.buttonHex}
+      {...rest}
+    >
       <Text style={styles.buttonTextHex}>
         {decimalText}
       </Text>

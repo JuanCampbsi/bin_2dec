@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import arrowButton from '../../assets/arrow-button.png';
 import {
   StyleSheet,
   Text,
@@ -11,13 +10,14 @@ import {
 import Button from '../components/Button';
 import Decimal from '../components/Decimal';
 
+const arrowButton  = require ('../../assets/arrow-button.png');
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
-  const [decimalText, setDecimalText] = useState('');
+  const [decimalText, setDecimalText] = useState(0);
 
   function handleConverter() {
-    setDecimalText('');
+    setDecimalText(0);
     if (binaryText.replace(/[^2-9]/g, '')) { // Refatorar esse método
       alert('Enter number 0 or 1 !')
     } else {
@@ -28,10 +28,12 @@ export default function Home() {
         .reverse()
 
       // Calculate the result by accumulating previous vaue
-      const result = reversedBinaryText.reduce(
+      const result: number = reversedBinaryText.reduce(
         (accumulator, currentValue, idx) =>
           accumulator + currentValue * Math.pow(2, idx)
       )
+
+
       setDecimalText(result);
 
     }
@@ -55,13 +57,21 @@ export default function Home() {
           maxLength={8}
         />
 
-        <Button onPress={ handleConverter }/>
+        <Button
+          onPress={handleConverter}
+          title="Start"
+        />
 
         <View style={styles.arrowView}>
-        <Image  source={arrowButton} style={styles.arrow}/>
+          <Image
+            source={arrowButton}
+            style={styles.arrow}
+          />
         </View>
 
-        <Decimal decimalText={decimalText}/>
+        <Decimal
+          decimalText={decimalText}
+        />
 
       </View>
     </>
@@ -72,7 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#3CB371',
-    paddingHorizontal: 20,
     paddingVertical: 70,
     paddingHorizontal: 30
   },
@@ -97,15 +106,15 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 30 : 20,
     borderRadius: 7,
     fontWeight: 'bold',
-    textAlign:'center'
+    textAlign: 'center'
   },
   gold: {
     color: '#FFD700',
   },
-  arrowView: {   
+  arrowView: {
     justifyContent: 'center',
     alignItems: 'center'
-  }, 
+  },
   arrow: {
     width: 50,
     height: 50,
@@ -113,5 +122,5 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '90deg' }],
     justifyContent: 'center',
     alignItems: 'center',
-}
+  }
 });
