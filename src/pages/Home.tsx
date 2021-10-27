@@ -5,38 +5,42 @@ import {
   TextInput,
   Platform,
   View,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 import Button from '../components/Button';
 import Decimal from '../components/Decimal';
 
-const arrowButton  = require ('../../assets/arrow-button.png');
+const arrowButton = require('../../assets/arrow-button.png');
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
-  const [decimalText, setDecimalText] = useState(0);
+  const [decimalText, setDecimalText] = useState<number>();
+
+  const showAlert = () => {
+    Alert.alert(
+      'Enter number 0 or 1 !'
+    )
+  }
+  if (binaryText.replace(/[^2-9 || A-z]/g, '')) {
+    showAlert();
+  }
+
 
   function handleConverter() {
-    setDecimalText(0);
-    if (binaryText.replace(/[^2-9]/g, '')) { // Refatorar esse método
-      alert('Enter number 0 or 1 !')
-    } else {
+    const reversedBinaryText = binaryText
+      .split('')
+      .map(Number) // Convert to a number from string
+      .reverse()
 
-      const reversedBinaryText = binaryText
-        .split('')
-        .map(Number) // Convert to a number from string
-        .reverse()
-
-      // Calculate the result by accumulating previous vaue
-      const result: number = reversedBinaryText.reduce(
-        (accumulator, currentValue, idx) =>
-          accumulator + currentValue * Math.pow(2, idx)
-      )
+    // Calculate the result by accumulating previous vaue
+    const result: number = reversedBinaryText.reduce(
+      (accumulator, currentValue, idx) =>
+        accumulator + currentValue * Math.pow(2, idx)
+    )
+    setDecimalText(result);
 
 
-      setDecimalText(result);
-
-    }
   }
   return (
     <>
@@ -51,9 +55,9 @@ export default function Home() {
 
         <TextInput
           style={styles.input}
-          onChangeText={setBinaryText}
+          onChangeText={text => setBinaryText(text)}
           blurOnSubmit={true}
-          keyboardType={'decimal-pad'}
+          keyboardType={'numeric'}
           maxLength={8}
         />
 
