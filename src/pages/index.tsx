@@ -8,10 +8,11 @@ import {
   Image,
   Alert
 } from 'react-native';
-import Button from '../components/Button';
-import Decimal from '../components/Decimal';
+import Button from '../../src/components/Button';
+import Decimal from '../../src/components/Decimal'
+import { Container } from './styles';
 
-const arrowButton = require('../../assets/arrow-button.png');
+const arrowButton = require('../../src/assets/arrow-button.png');
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
@@ -44,7 +45,7 @@ export default function Home() {
   }
   return (
     <>
-      <View style={styles.container}>
+      <Container>
         <Text style={styles.title}>
           Bin{<Text style={styles.gold}>2</Text>}Dec
         </Text>
@@ -77,18 +78,12 @@ export default function Home() {
           decimalText={decimalText}
         />
 
-      </View>
+      </Container>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#3CB371',
-    paddingVertical: 70,
-    paddingHorizontal: 30
-  },
   title: {
     color: '#FFF',
     fontSize: 40,
