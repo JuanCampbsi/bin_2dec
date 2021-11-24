@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet,
   Text,
-  TextInput,
-  Platform,
-  View,
-  Image,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
-import Button from '../../src/components/Button';
-import Decimal from '../../src/components/Decimal'
-import { Container } from './styles';
+import { color } from 'react-native-reanimated';
 
-const arrowButton = require('../../src/assets/arrow-button.png');
+import Decimal from '../../src/components/Decimal'
+import { ArrowView, Container, GitText, GitView, Icon, IconGit, Input, StarGit, SubTitle, Title } from './styles';
+
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
@@ -34,6 +30,7 @@ export default function Home() {
       .map(Number) // Convert to a number from string
       .reverse()
 
+
     // Calculate the result by accumulating previous vaue
     const result: number = reversedBinaryText.reduce(
       (accumulator, currentValue, idx) =>
@@ -46,80 +43,41 @@ export default function Home() {
   return (
     <>
       <Container>
-        <Text style={styles.title}>
-          Bin{<Text style={styles.gold}>2</Text>}Dec
-        </Text>
+        <Title>
+          Bin{<Text style={{ color: '#FFD700' }}>2</Text>}Dec
+        </Title>
 
-        <Text style={styles.subTitle}>
+        <SubTitle>
           Enter the binary number
-        </Text>
+        </SubTitle>
 
-        <TextInput
-          style={styles.input}
+        <Input
           onChangeText={text => setBinaryText(text)}
           blurOnSubmit={true}
           keyboardType={'numeric'}
           maxLength={8}
         />
 
-        <Button
-          onPress={handleConverter}
-          title="Start"
-        />
+        <ArrowView>
+          <Icon
+            onPress={handleConverter}
+            name={'play'} />
+        </ArrowView>
 
-        <View style={styles.arrowView}>
-          <Image
-            source={arrowButton}
-            style={styles.arrow}
-          />
-        </View>
-
-        <Decimal
-          decimalText={decimalText}
-        />
+        <Decimal decimalText={decimalText} />
 
       </Container>
+
+      <GitView>
+        <GitText>
+          If you liked it, star project.
+        </GitText>
+        <StarGit name={'star'} />
+        <IconGit name={'github'}
+          onPress={() => Linking.openURL('https://github.com/JuanCampbsi/Bin2Dec')}
+        />
+      </GitView>
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  title: {
-    color: '#FFF',
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  subTitle: {
-    color: '#FFF',
-    fontSize: 20,
-    marginTop: 50,
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-  input: {
-    backgroundColor: '#FFFFE0',
-    color: 'black',
-    fontSize: 18,
-    padding: Platform.OS === 'ios' ? 15 : 10,
-    marginTop: Platform.OS === 'ios' ? 30 : 20,
-    borderRadius: 7,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  gold: {
-    color: '#FFD700',
-  },
-  arrowView: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  arrow: {
-    width: 50,
-    height: 50,
-    marginTop: 30,
-    transform: [{ rotate: '90deg' }],
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-});
