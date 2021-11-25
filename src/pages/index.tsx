@@ -5,9 +5,19 @@ import {
   Linking
 } from 'react-native';
 
-import Decimal from '../../src/components/Decimal'
-import { ArrowView, Container, GitText, GitView, Icon, IconGit, Input, StarGit, SubTitle, Title } from './styles';
+import { 
+  ArrowView, 
+  Container, 
+  GitText, 
+  GitView, 
+  Icon, 
+  IconGit, 
+  Input, 
+  StarGit, 
+  SubTitle, 
+  Title } from './styles';
 
+import Decimal from '../../src/components/Decimal';
 
 export default function Home() {
   const [binaryText, setBinaryText] = useState('');
