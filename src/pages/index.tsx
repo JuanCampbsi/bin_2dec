@@ -4,7 +4,6 @@ import {
   Alert,
   Linking
 } from 'react-native';
-import { color } from 'react-native-reanimated';
 
 import Decimal from '../../src/components/Decimal'
 import { ArrowView, Container, GitText, GitView, Icon, IconGit, Input, StarGit, SubTitle, Title } from './styles';
