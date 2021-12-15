@@ -1,91 +1,102 @@
 import React, { useState } from 'react';
 import {
   Text,
-  Alert,
-  Linking
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert
 } from 'react-native';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup"
 
-import { 
-  ArrowView, 
-  Container, 
-  GitText, 
-  GitView, 
-  Icon, 
-  IconGit, 
-  Input, 
-  StarGit, 
-  SubTitle, 
-  Title } from './styles';
+import {
+  ArrowView,
+  Container,
+  Icon,
+  SubTitle,
+  Title
+} from './styles';
 
-import Decimal from '../../src/components/Decimal';
+import Decimal from '../components/Decimal';
+import InputController from '../components/Form/InputController';
+import Footer from '../components/Footer';
+
+interface FormData {
+  amount: string
+}
+
+const schema = Yup.object().shape({
+  amount: Yup
+    .string()
+    .required('Valor é obrigatório')
+    .typeError('Informe um valor númerico')
+  })
 
 export default function Home() {
-  const [binaryText, setBinaryText] = useState('');
   const [decimalText, setDecimalText] = useState<number>();
 
-  const showAlert = () => {
-    Alert.alert(
-      'Enter number 0 or 1 !'
-    )
-  }
-  if (binaryText.replace(/[^2-9 || A-z]/g, '')) {
-    showAlert();
-  }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
 
+  function handleConverter(form: FormData) {
+    const data = {
+      amount: form.amount
+    }
 
-  function handleConverter() {
-    const reversedBinaryText = binaryText
+    if (data.amount.replace(/[^2-9 || A-z]/g, ''))
+      return Alert.alert('Enter number 0 or 1 !')
+
+    const reversedBinaryText = data.amount
       .split('')
-      .map(Number) // Convert to a number from string
+      .map(Number)
       .reverse()
 
-
-    // Calculate the result by accumulating previous vaue
     const result: number = reversedBinaryText.reduce(
       (accumulator, currentValue, idx) =>
         accumulator + currentValue * Math.pow(2, idx)
     )
+
+    if (!result)
+      return Alert.alert('Enter positive number!')
     setDecimalText(result);
-
-
   }
   return (
     <>
-      <Container>
-        <Title>
-          Bin{<Text style={{ color: '#FFD700' }}>2</Text>}Dec
-        </Title>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Container>
+          <Title>
+            Bin{<Text style={{ color: '#FFD700' }}>2</Text>}Dec
+          </Title>
 
-        <SubTitle>
-          Enter the binary number
-        </SubTitle>
+          <SubTitle>
+            Enter the binary number
+          </SubTitle>
 
-        <Input
-          onChangeText={text => setBinaryText(text)}
-          blurOnSubmit={true}
-          keyboardType={'numeric'}
-          maxLength={8}
-        />
+          <InputController
+            name='amount'
+            control={control}
+            blurOnSubmit={true}
+            keyboardType={'numeric'}
+            maxLength={8}
+            errors={errors.amount && errors.amount.message}
+          />
 
-        <ArrowView>
-          <Icon
-            onPress={handleConverter}
-            name={'play'} />
-        </ArrowView>
+          <ArrowView>
+            <Icon
+              onPress={handleSubmit(handleConverter)}
+              name={'play'} />
+          </ArrowView>
 
-        <Decimal decimalText={decimalText} />
+          <Decimal decimalText={decimalText} />
 
-      </Container>
-
-      <GitView>
-        <GitText>
-          If you liked it, star project.
-        </GitText>
-        <StarGit name={'star'} />
-        <IconGit name={'github'}
-          onPress={() => Linking.openURL('https://github.com/JuanCampbsi/Bin2Dec')}
-        />
-      </GitView>
+        </Container>
+      </TouchableWithoutFeedback>
+      <Footer />
     </>
   );
 }

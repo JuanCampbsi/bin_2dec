@@ -1,16 +1,14 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const ButtonTextHex = styled.Text`
     color: #fff;
-    font-size: 80px;
+    font-size: ${RFValue(80)}px;
     font-weight: bold;
-
 `;
 
 export const ButtonHex = styled.TouchableOpacity`
-    
-    border-radius: 700px;
+    width: 100%;      
     align-items: center;
-    bottom: 10px;
-
+    padding: ${RFValue(10)}px;
 `;
